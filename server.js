@@ -23,11 +23,27 @@ http.createServer( function (request, response) {
         }else{
             //Page found
             // HTTP Status: 200 : OK
-            // Content Type: text/plain
-            response.writeHead(200, {'Content-Type': 'text/html'});
+            // Find Content Type and send
+            var dotoffset = request.url.lastIndexOf('.');
+            var mimetype =
+            dotoffset == -1? 'text/plain': {
+                                    '.html' : 'text/html',
+                                    '.ico' : 'image/x-icon',
+                                    '.jpg' : 'image/jpeg',
+                                    '.png' : 'image/png',
+                                    '.gif' : 'image/gif',
+                                    '.css' : 'text/css',
+                                    '.js' : 'text/javascript'
+                                    }[ request.url.substr(dotoffset) ];
+            response.setHeader('Content-type' , mimetype);
+            response.end(data);
+            console.log( request.url, mimetype );
+
+
+
+            //response.writeHead(200, {'Content-Type': mimetype});
 
             // Write the content of the file to response body
-            response.write(data.toString());
         }
         // Send the response body
         response.end();

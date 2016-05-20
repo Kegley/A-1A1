@@ -1,10 +1,6 @@
 var exampleSocket;
 var lastMsg;
 var game;
-function antHill() {
-    console.log("Attacking Anthill");
-    sendMsg(encodeMsg(2, "Attacking Hill"));
-}
 
 function connect() {
     if(exampleSocket != undefined && exampleSocket.readyState == 1) {
@@ -17,7 +13,7 @@ function connect() {
         //Recieve MSG and Update STAMP
         lastMsg = JSON.parse(event.data).msg;
         updateDate = new Date();
-        date.innerHTML = "Date: " + (updateDate.getHours() % 12) + ':' + updateDate.getMinutes() + ':' +  updateDate.getSeconds();
+        date.value = (updateDate.getHours() % 12) + ':' + updateDate.getMinutes() + ':' +  updateDate.getSeconds();
     };
     exampleSocket.onclose = function(event) {
         stopGame();
@@ -34,6 +30,12 @@ function eatFood() {
     sendMsg(encodeMsg(1, "Eating Food"));
 }
 
+function antHill() {
+    console.log("Attacking Anthill");
+    sendMsg(encodeMsg(2, "Attacking Hill"));
+}
+
+
 function encodeMsg(id, msg) {
     var encodedMsg = [];
     encodedMsg.push(id);
@@ -43,7 +45,8 @@ function encodeMsg(id, msg) {
 
 function joinGame() {
     console.log("Joined Game");
-    sendMsg(encodeMsg(0, "Joshy"));
+    var names = ["Joe", "Jamie", "Johnathan", "Jesabel", "Jasmine", "Jack", "JoJo", "Jill", "Jabby", "Jessie"];
+    sendMsg(encodeMsg(0, names[(Math.floor((Math.random() * 10) + 1))]));
 }
 
 function sendMsg(msg) {
