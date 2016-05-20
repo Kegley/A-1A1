@@ -14,16 +14,23 @@
 
 <body>
     <h1>Pests.IO Client</h1>
+    <h4 id="updatedDate">Date: Not Updated</h4>
     <p>
         <input type="button" value="Connect" onclick="connect()">
         <input type="button" value="Join" onclick="joinGame('Joshy')">
         <input type="button" value="EatFood" onclick="eatFood()">
         <input type="button" value="AntHill" onclick="antHill()">
         <input type="button" value="Disconnect" onclick="disconnect()">
+        <input type="button" value="Start Animating" onclick="startGame()">
+        <input type="button" value="Stop Animating" onclick="stopGame()">
+
+
     </p>
     <canvas id="canvas" width="500" height="500" style="border:1px solid black"></canvas>
 
 
-  <script src="./script.js"></script>
+  <script src="./js/script.js"></script>
+  <script src="./js/game.js"></script>
+
 </body>
 </html>

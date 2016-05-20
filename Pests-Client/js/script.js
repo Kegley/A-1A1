@@ -1,20 +1,28 @@
-var exampleSocket = new WebSocket("ws://localhost:443");
-
-exampleSocket.onmessage = function(event) {
-    console.log(event);
-}
-
+var exampleSocket;
+var lastMsg;
+var game;
 function antHill() {
     console.log("Attacking Anthill");
     sendMsg(encodeMsg(2, "Attacking Hill"));
 }
 
 function connect() {
-    if(exampleSocket.readyState == 1) {
+    if(exampleSocket != undefined && exampleSocket.readyState == 1) {
         console.log("Already Connected");
         return;
     }
+    game = new Game();
     exampleSocket = new WebSocket("ws://localhost:443");
+    exampleSocket.onmessage = function(event) {
+        //Recieve MSG and Update STAMP
+        lastMsg = JSON.parse(event.data).msg;
+        updateDate = new Date();
+        date.innerHTML = "Date: " + (updateDate.getHours() % 12) + ':' + updateDate.getMinutes() + ':' +  updateDate.getSeconds();
+    };
+    exampleSocket.onclose = function(event) {
+        stopGame();
+    }
+
 }
 
 function disconnect() {
@@ -42,21 +50,6 @@ function sendMsg(msg) {
     exampleSocket.send(msg);
 }
 
-
-
-exampleSocket.onmessage = function(event) {
-  var f = document.getElementById("chatbox").contentDocument;
-  var text = "";
-  var msg = JSON.parse(event.data);
-  var time = new Date(msg.date);
-  var timeStr = time.toLocaleTimeString();
-
-  console.log(msg);
-};
-
-
-var c = document.getElementById("canvas");
-var ctx = c.getContext("2d");
-ctx.beginPath();
-ctx.arc(95,50,10,0,2*Math.PI);
-ctx.stroke();
+function updateFood(food) {
+    foods = food;
+}
