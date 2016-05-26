@@ -10,6 +10,7 @@ function connect() {
     game = new Game();
     exampleSocket = new WebSocket("ws://localhost:443");
     exampleSocket.onmessage = function(event) {
+        if(processingUpdate) { return; }
         //Recieve MSG and Update STAMP
         lastMsg = JSON.parse(event.data).msg;
         updateDate = new Date();
@@ -37,15 +38,15 @@ function antHill() {
 
 
 function encodeMsg(id, msg) {
-    var encodedMsg = [];
-    encodedMsg.push(id);
-    encodedMsg.push(msg);
-    return encodedMsg;
+    var encodedMsg = {};
+    encodedMsg.id = id;
+    encodedMsg.msg = msg;
+    return JSON.stringify(encodedMsg);
 }
 
 function joinGame() {
     console.log("Joined Game");
-    var names = ["Joe", "Jamie", "Johnathan", "Jesabel", "Jasmine", "Jack", "JoJo", "Jill", "Jabby", "Jessie"];
+    var names = ["Joe", "Jamie", "Johnathan", "Jesabel", "Jasmine", "Jack", "JoJo", "Jill", "Jabby", "Jessie", "TIM"];
     sendMsg(encodeMsg(0, names[(Math.floor((Math.random() * 10) + 1))]));
 }
 
